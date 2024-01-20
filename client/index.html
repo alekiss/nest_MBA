@@ -24,9 +24,45 @@
     </div>
 
     <script>
+        var form = document.querySelector('form')
+        var title = document.querySelector('input')
+        var description = document.querySelector('textarea')
+        var task = {}
+
+        form.onsubmit = function(evt) {
+            evt.preventDefault()
+            task = {
+                title: title.value,
+                description: description.value
+            }
+        }
+
+
+        fetch('http://localhost:3000/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(task)
+        })
+        .then(function(response) {
+            return response.json()
+        })
+        .then(function(tasks){
+            tasks.forEach(function(task) {
+                var element = document.createElement('li')
+                element.innerHTML = task.title
+                root.appendChild(element)
+            })
+        })
+
         var root = document.querySelector('.root ul')
 
-        fetch('http://localhost:3000/task')
+        fetch('http://localhost:3000/tasks', {
+            headers: {
+                authorization: 'Bearer 123'
+            }
+        })
         .then(function(response) {
             return response.json()
         })
