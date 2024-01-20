@@ -36,11 +36,18 @@ export class TaskService implements ITaskService{
     }
 
     createTask(task: Task): Task {
-    const maxId = this.tasks.reduce((max, task) => Math.max(task.id, max), 0);
-    task.id = maxId + 1;
+        this.tasks.push({
+            id: new Date().getTime,
+            ...task,
+        })
+        return task;
+    }
 
-    this.tasks.push(task);
+    updateTask(task: Task): Task {
+        const localTask = this.findOne(task.id)
+    }
 
-    return task;
+    deleteTask(task: Task): Task {
+        
     }
 }
